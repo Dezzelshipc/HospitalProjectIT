@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32319.34
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalProjectIT", "HospitalProjectIT\HospitalProjectIT.csproj", "{694193D5-8D06-4340-BB4F-DAEBC9A47A25}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HospitalProjectIT", "HospitalProjectIT\HospitalProjectIT.csproj", "{694193D5-8D06-4340-BB4F-DAEBC9A47A25}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "domain", "domain\domain.csproj", "{73F2BCC2-D8B2-4B41-B905-0EA7ED19A031}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "domain", "domain\domain.csproj", "{73F2BCC2-D8B2-4B41-B905-0EA7ED19A031}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
