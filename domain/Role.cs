@@ -1,6 +1,6 @@
 ﻿namespace domain
 {
-    internal class Role
+    public class Role
     {
         public int Id;
     }
