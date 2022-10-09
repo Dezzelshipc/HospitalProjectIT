@@ -32,12 +32,12 @@ namespace domain.UseCases
             return _db.IsUserExists(login) ? Result.Ok(_db.GetUserByLogin(login)) : Result.Fail<User>("User not found");
         }
 
-        public Result<bool> IsUserExists(string login)
+        public Result IsUserExists(string login)
         {
             if (string.IsNullOrEmpty(login))
-                return Result.Fail<bool>("Login error");
+                return Result.Fail("Login error");
 
-            return _db.IsUserExists(login) ? Result.Ok(true) : Result.Fail<bool>("User not found");
+            return _db.IsUserExists(login) ? Result.Ok() : Result.Fail("User not found");
         }
     }
 }

@@ -23,21 +23,21 @@ namespace domain.Models
             Password = password;
         }
 
-        public Result<bool> IsValid()
+        public Result IsValid()
         {
             if (string.IsNullOrEmpty(UserName))
-                return Result.Fail<bool>("Username error");
+                return Result.Fail("Username error");
 
             if (string.IsNullOrEmpty(Password))
-                return Result.Fail<bool>("Password error");
+                return Result.Fail("Password error");
 
             if (string.IsNullOrEmpty(PhoneNumber))
-                return Result.Fail<bool>("Phone number error");
+                return Result.Fail("Phone number error");
 
             if (string.IsNullOrEmpty(Fio))
-                return Result.Fail<bool>("Fio error");
+                return Result.Fail("Fio error");
 
-            return Result.Ok(true);
+            return Result.Ok();
         }
     }
 
