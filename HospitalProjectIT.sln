@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HospitalProjectIT", "Hospit
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "domain", "domain\domain.csproj", "{73F2BCC2-D8B2-4B41-B905-0EA7ED19A031}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "UnitTests\UnitTests.csproj", "{02EE39EC-02EC-46BC-A6AC-6114163C6621}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{73F2BCC2-D8B2-4B41-B905-0EA7ED19A031}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{73F2BCC2-D8B2-4B41-B905-0EA7ED19A031}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{73F2BCC2-D8B2-4B41-B905-0EA7ED19A031}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02EE39EC-02EC-46BC-A6AC-6114163C6621}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02EE39EC-02EC-46BC-A6AC-6114163C6621}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02EE39EC-02EC-46BC-A6AC-6114163C6621}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02EE39EC-02EC-46BC-A6AC-6114163C6621}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
