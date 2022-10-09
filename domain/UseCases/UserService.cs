@@ -1,6 +1,7 @@
 ﻿using domain.Logic;
+using domain.Models;
 
-namespace domain
+namespace domain.UseCases
 {
     public class UserService {
         private IUserRepository _db;

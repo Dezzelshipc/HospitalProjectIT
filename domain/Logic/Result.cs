@@ -1,4 +1,4 @@
-﻿namespace domain
+﻿namespace domain.Logic
 {
     public class Result {
         protected Result(bool success, string error)

@@ -1,4 +1,6 @@
-﻿namespace domain
+﻿using domain.Logic;
+
+namespace domain.Models
 {
     public class User
     {
