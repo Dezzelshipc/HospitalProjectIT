@@ -45,21 +45,51 @@
         [Fact]
         public void Delete_IdNotFound_F()
         {
-            _doctorRepositoryMock.Setup(repository => repository.DeleteDoctor(It.IsAny<int>())).Returns(() => false);
+            List<Appointment> apps = new();
 
-            var result = _doctorService.DeleteDoctor(0);
+            var result = _doctorService.DeleteDoctor(0, apps);
 
             Assert.True(result.IsFailure);
             Assert.Equal("Doctor not found", result.Error);
         }
 
         [Fact]
+        public void Delete_AppsNotEmpty_F()
+        {
+            List<Appointment> apps = new()
+            {
+                new Appointment()
+            };
+
+            var result = _doctorService.DeleteDoctor(0, apps);
+
+            Assert.True(result.IsFailure);
+            Assert.Equal("Unable to delete doctor: Doctor has appointments", result.Error);
+        }
+
+        [Fact]
+        public void Delete_DoctorNotFound_F()
+        {
+            List<Appointment> apps = new()
+            {
+                new Appointment()
+            };
+            _doctorRepositoryMock.Setup(repository => repository.FindDoctor(It.IsAny<int>())).Returns(() => null);
+
+            var result = _doctorService.DeleteDoctor(0, apps);
+
+            Assert.True(result.IsFailure);
+            Assert.Equal("Unable to delete doctor: Doctor has appointments", result.Error);
+        }
+
+        [Fact]
         public void Delete_DeleteError_F()
         {
+            List<Appointment> apps = new();
             _doctorRepositoryMock.Setup(repository => repository.FindDoctor(It.IsAny<int>())).Returns(() => new Doctor(0, "a", new Specialization(0, "a")));
             _doctorRepositoryMock.Setup(repository => repository.DeleteDoctor(It.IsAny<int>())).Returns(() => false);
 
-            var result = _doctorService.DeleteDoctor(0);
+            var result = _doctorService.DeleteDoctor(0, apps);
 
             Assert.True(result.IsFailure);
             Assert.Equal("Unable to delete doctor", result.Error);
@@ -68,10 +98,11 @@
         [Fact]
         public void Delete_Valid_P()
         {
+            List<Appointment> apps = new();
             _doctorRepositoryMock.Setup(repository => repository.FindDoctor(It.IsAny<int>())).Returns(() => new Doctor(0, "a", new Specialization(0, "a")));
             _doctorRepositoryMock.Setup(repository => repository.DeleteDoctor(It.IsAny<int>())).Returns(() => true);
 
-            var result = _doctorService.DeleteDoctor(0);
+            var result = _doctorService.DeleteDoctor(0, apps);
 
             Assert.True(result.Success);
         }

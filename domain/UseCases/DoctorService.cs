@@ -21,8 +21,11 @@ namespace domain.UseCases
             return _db.CreateDoctor(doctor) ? Result.Ok(doctor) : Result.Fail<Doctor>("Unable to create doctor");
         }
 
-        public Result<Doctor> DeleteDoctor(int id)
+        public Result<Doctor> DeleteDoctor(int id, IEnumerable<Appointment> appointments)
         {
+            if (appointments.Any())
+                return Result.Fail<Doctor>("Unable to delete doctor: Doctor has appointments");
+
             var result = FindDoctor(id);
             if (result.IsFailure)
                 return Result.Fail<Doctor>(result.Error);

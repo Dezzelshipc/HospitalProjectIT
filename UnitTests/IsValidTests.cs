@@ -154,6 +154,16 @@ namespace IsValidTests
         }
 
         [Fact]
+        public void IvalidTime_F()
+        {
+            var app = new Appointment(DateTime.MaxValue, DateTime.MinValue, 0, 0);
+            var check = app.IsValid();
+
+            Assert.True(check.IsFailure);
+            Assert.Equal("Invalid time", check.Error);
+        }
+
+        [Fact]
         public void ValidAppintment_P()
         {
             var app = new Appointment(DateTime.Now, DateTime.Now, -1, 0);
@@ -181,6 +191,16 @@ namespace IsValidTests
 
             Assert.True(check.IsFailure);
             Assert.Equal("Invalid doctor id", check.Error);
+        }
+
+        [Fact]
+        public void InvalidTime_F()
+        {
+            var schedule = new Schedule(0, DateTime.MaxValue, DateTime.MinValue);
+            var check = schedule.IsValid();
+
+            Assert.True(check.IsFailure);
+            Assert.Equal("Invalid time", check.Error);
         }
 
         [Fact]
