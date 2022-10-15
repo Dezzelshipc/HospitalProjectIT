@@ -15,7 +15,7 @@ namespace domain.Logic
     public interface IUserRepository : IRepository<User>
     {
         bool IsUserExists(string login);
-        User GetUserByLogin(string login);
+        User? GetUserByLogin(string login);
         bool CreateUser(User user);
     }
 
@@ -24,8 +24,8 @@ namespace domain.Logic
         bool CreateDoctor(Doctor doctor);
         bool DeleteDoctor(int id);
         IEnumerable<Doctor> GelAllDoctors();
-        Doctor FindDoctor(int id);
-        Doctor FindDoctor(Specialization specialization);
+        Doctor? FindDoctor(int id);
+        Doctor? FindDoctor(Specialization specialization);
     }
 
     public interface IAppointmentRepository : IRepository<Appointment>
@@ -37,7 +37,7 @@ namespace domain.Logic
     public interface IScheduleRepository : IRepository<Schedule>
     {
         IEnumerable<Schedule> GetSchedule(Doctor doctor);
-        bool AddSchedule(Doctor doctor);
-        bool UpdateSchedule(Doctor doctor);
+        bool AddSchedule(Doctor doctor, Schedule schedule);
+        bool UpdateSchedule(Doctor doctor, Schedule schedule);
     }
 }

@@ -22,7 +22,7 @@
 
         public static Result<T> Fail<T>(string message)
         {
-            return new Result<T>(default(T), false, message);
+            return new Result<T>(default, false, message);
         }
 
         public static Result Ok()
@@ -38,12 +38,12 @@
 
     public class Result<T> : Result
     {
-        protected internal Result(T value, bool success, string error)
+        protected internal Result(T? value, bool success, string error)
             : base(success, error)
         {
             Value = value;
         }
 
-        public T Value { get; set; }
+        public T? Value { get; set; }
     }
 }

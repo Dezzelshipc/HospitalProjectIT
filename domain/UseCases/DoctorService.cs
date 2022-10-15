@@ -40,15 +40,19 @@ namespace domain.UseCases
             if (id < 0)
                 return Result.Fail<Doctor>("Invalid id");
 
-            return Result.Ok(_db.FindDoctor(id));
+            var doctor = _db.FindDoctor(id);
+
+            return doctor != null ? Result.Ok(doctor) : Result.Fail<Doctor>("Doctor not found");
         }
         public Result<Doctor> FindDoctor(Specialization specialization)
         {
             var result = specialization.IsValid();
             if (result.IsFailure)
-                return Result.Fail<Doctor>("Unable to find doctor: " + result.Error);
+                return Result.Fail<Doctor>("Invalid specialization: " + result.Error);
 
-            return Result.Ok(_db.FindDoctor(specialization));
+            var doctor = _db.FindDoctor(specialization);
+
+            return doctor != null ? Result.Ok(doctor) : Result.Fail<Doctor>("Doctor not found");
         }
     }
 }

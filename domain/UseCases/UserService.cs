@@ -29,7 +29,9 @@ namespace domain.UseCases
             if (string.IsNullOrEmpty(login))
                 return Result.Fail<User>("Invalid login");
 
-            return _db.IsUserExists(login) ? Result.Ok(_db.GetUserByLogin(login)) : Result.Fail<User>("Unable to find user");
+            var user = _db.GetUserByLogin(login);
+
+            return user != null ? Result.Ok(user) : Result.Fail<User>("Unable to find user");
         }
 
         public Result<bool> IsUserExists(string login)
