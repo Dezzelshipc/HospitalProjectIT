@@ -4,3 +4,4 @@ global using Moq;
 global using domain.Models;
 global using domain.Logic;
 global using domain.UseCases;
+global using domain.Logic.Interfaces;

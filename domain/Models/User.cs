@@ -12,7 +12,7 @@ namespace domain.Models
         public string UserName;
         public string Password;
 
-        public User() { }
+        public User() : this(0, "", "", Role.Patient, "", "") { }
         public User(int id, string phoneNumber, string fio, Role role, string userName, string password)
         {
             Id = id;
@@ -25,17 +25,20 @@ namespace domain.Models
 
         public Result IsValid()
         {
+            if (Id < 0)
+                return Result.Fail("Invalid id");
+
             if (string.IsNullOrEmpty(UserName))
-                return Result.Fail("Username error");
+                return Result.Fail("Invalid username");
 
             if (string.IsNullOrEmpty(Password))
-                return Result.Fail("Password error");
+                return Result.Fail("Invalid password");
 
             if (string.IsNullOrEmpty(PhoneNumber))
-                return Result.Fail("Phone number error");
+                return Result.Fail("Invalid phone number");
 
             if (string.IsNullOrEmpty(Fio))
-                return Result.Fail("Fio error");
+                return Result.Fail("Invalid fio");
 
             return Result.Ok();
         }
