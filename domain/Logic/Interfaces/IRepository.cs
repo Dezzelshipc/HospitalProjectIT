@@ -1,4 +1,4 @@
-﻿namespace domain.Logic
+﻿namespace domain.Logic.Interfaces
 {
     public interface IRepository<T> where T : class
     {

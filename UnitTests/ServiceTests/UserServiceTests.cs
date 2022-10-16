@@ -1,4 +1,4 @@
-﻿namespace ServiceTests
+﻿namespace UnitTests.ServiceTests
 {
     public class UserServiceTests
     {

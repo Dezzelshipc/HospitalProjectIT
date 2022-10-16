@@ -1,6 +1,6 @@
 ﻿using domain.Models;
 
-namespace domain.Logic
+namespace domain.Logic.Interfaces
 {
     public interface IUserRepository : IRepository<User>
     {

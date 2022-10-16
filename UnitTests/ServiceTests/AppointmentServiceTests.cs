@@ -1,4 +1,4 @@
-﻿namespace ServiceTests
+﻿namespace UnitTests.ServiceTests
 {
     public class AppointmentServiceTests
     {
@@ -14,9 +14,9 @@
         [Fact]
         public void Save_InvalidApp_F()
         {
-            var app = new Appointment(DateTime.MinValue, DateTime.MinValue, -2,-2);
+            var app = new Appointment(DateTime.MinValue, DateTime.MinValue, -2, -2);
             var sched = new Schedule();
-            var res = _appService.SaveAppointment(app ,sched);
+            var res = _appService.SaveAppointment(app, sched);
 
             Assert.True(res.IsFailure);
             Assert.Contains("Invalid appointment: ", res.Error);
