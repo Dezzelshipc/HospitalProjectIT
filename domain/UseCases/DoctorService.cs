@@ -34,9 +34,9 @@ namespace domain.UseCases
             return _db.DeleteDoctor(id) ? result : Result.Fail<Doctor>("Unable to delete doctor");
         }
 
-        public Result<IEnumerable<Doctor>> GelAllDoctors()
+        public Result<IEnumerable<Doctor>> GetAllDoctors()
         {
-            return Result.Ok(_db.GelAllDoctors());
+            return Result.Ok(_db.GetAllDoctors());
         }
 
         public Result<Doctor> FindDoctor(int id)
@@ -48,15 +48,15 @@ namespace domain.UseCases
 
             return doctor != null ? Result.Ok(doctor) : Result.Fail<Doctor>("Doctor not found");
         }
-        public Result<Doctor> FindDoctor(Specialization specialization)
+        public Result<IEnumerable<Doctor>> FindDoctor(Specialization specialization)
         {
             var result = specialization.IsValid();
             if (result.IsFailure)
-                return Result.Fail<Doctor>("Invalid specialization: " + result.Error);
+                return Result.Fail<IEnumerable<Doctor>>("Invalid specialization: " + result.Error);
 
-            var doctor = _db.FindDoctor(specialization);
+            var doctors = _db.FindDoctor(specialization);
 
-            return doctor != null ? Result.Ok(doctor) : Result.Fail<Doctor>("Doctor not found");
+            return doctors.Any() ? Result.Ok(doctors) : Result.Fail<IEnumerable<Doctor>>("Doctors not found");
         }
     }
 }

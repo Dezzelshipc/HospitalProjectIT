@@ -6,6 +6,7 @@ namespace domain.Logic.Interfaces
     {
         bool SaveAppointment(Appointment appointment);
         IEnumerable<Appointment> GetAppointments(int doctorId);
-        IEnumerable<Appointment> GetAppointments(Specialization specialization);
+        IEnumerable<Appointment> GetExistingAppointments(Specialization specialization);
+        IEnumerable<DateTime> GetFreeAppointments(Specialization specialization);
     }
 }

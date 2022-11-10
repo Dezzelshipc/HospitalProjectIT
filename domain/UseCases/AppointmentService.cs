@@ -26,25 +26,29 @@ namespace domain.UseCases
             if (schedule.StartTime > appointment.StartTime || schedule.EndTime < appointment.EndTime)
                 return Result.Fail<Appointment>("Appointment out of schedule");
 
-            var apps = _db.GetAppointments(appointment.DoctorId).ToList();
-            apps.Sort((a, b) => { return (a.StartTime < b.StartTime) ? -1 : 1; });
-            var index = apps.FindLastIndex(a => a.EndTime <= appointment.StartTime);
-            if (apps.Count > index + 1)
-            {
-                if (apps[index + 1].StartTime < appointment.EndTime)
-                    return Result.Fail<Appointment>("Appointment time already taken");
-            }
+            var apps = _db.GetAppointments(appointment.DoctorId);
+            if (apps.Any(a => appointment.StartTime < a.EndTime && a.StartTime < appointment.EndTime))
+                return Result.Fail<Appointment>("Appointment time already taken");
 
             return _db.SaveAppointment(appointment) ? Result.Ok(appointment) : Result.Fail<Appointment>("Unable to save appointment");
         }
 
-        public Result<IEnumerable<Appointment>> GetAppointments(Specialization specialization)
+        public Result<IEnumerable<Appointment>> GetExistingAppointments(Specialization specialization)
         {
             var result = specialization.IsValid();
             if (result.IsFailure)
                 return Result.Fail<IEnumerable<Appointment>>("Invalid specialization: " + result.Error);
 
-            return Result.Ok(_db.GetAppointments(specialization));
+            return Result.Ok(_db.GetExistingAppointments(specialization));
+        }
+
+        public Result<IEnumerable<DateTime>> GetFreeAppointments(Specialization specialization)
+        {
+            var result = specialization.IsValid();
+            if (result.IsFailure)
+                return Result.Fail<IEnumerable<DateTime>>("Invalid specialization: " + result.Error);
+
+            return Result.Ok(_db.GetFreeAppointments(specialization));
         }
     }
 }

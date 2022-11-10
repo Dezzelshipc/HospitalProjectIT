@@ -6,8 +6,8 @@ namespace domain.Logic.Interfaces
     {
         bool CreateDoctor(Doctor doctor);
         bool DeleteDoctor(int id);
-        IEnumerable<Doctor> GelAllDoctors();
+        IEnumerable<Doctor> GetAllDoctors();
         Doctor? FindDoctor(int id);
-        Doctor? FindDoctor(Specialization specialization);
+        IEnumerable<Doctor> FindDoctor(Specialization specialization);
     }
 }
