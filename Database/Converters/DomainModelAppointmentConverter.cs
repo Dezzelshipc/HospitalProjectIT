@@ -17,7 +17,7 @@ namespace Database.Converters
             };
         }
 
-        public static Appointment ToDomian(this AppointmentModel model)
+        public static Appointment ToDomain(this AppointmentModel model)
         {
             return new Appointment
             {

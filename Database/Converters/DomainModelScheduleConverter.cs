@@ -16,7 +16,7 @@ namespace Database.Converters
             };
         }
 
-        public static Schedule ToDomian(this ScheduleModel model)
+        public static Schedule ToDomain(this ScheduleModel model)
         {
             return new Schedule
             {

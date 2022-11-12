@@ -31,17 +31,17 @@ namespace Database.Repository
 
         public IEnumerable<Schedule> GetAll()
         {
-            return _context.Schedlues.Select(s => s.ToDomian());
+            return _context.Schedlues.Select(s => s.ToDomain());
         }
 
         public Schedule? GetItem(int id)
         {
-            return _context.Schedlues.FirstOrDefault(s => s.Id == id)?.ToDomian();
+            return _context.Schedlues.FirstOrDefault(s => s.Id == id)?.ToDomain();
         }
 
         public IEnumerable<Schedule> GetSchedule(Doctor doctor)
         {
-            return _context.Schedlues.Where(s => s.DoctorId == doctor.Id).Select(s => s.ToDomian());
+            return _context.Schedlues.Where(s => s.DoctorId == doctor.Id).Select(s => s.ToDomain());
         }
 
         public void Save()

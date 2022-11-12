@@ -31,22 +31,22 @@ namespace Database.Repository
 
         public Doctor? FindDoctor(Specialization specialization)
         {
-            return _context.Doctors.FirstOrDefault(d => d.Specialization == specialization)?.ToDomian();
+            return _context.Doctors.FirstOrDefault(d => d.Specialization == specialization.ToModel())?.ToDomain();
         }
 
         public IEnumerable<Doctor> FindDoctors(Specialization specialization)
         {
-            return _context.Doctors.Where(d => d.Specialization == specialization).Select(d => d.ToDomian());
+            return _context.Doctors.Where(d => d.Specialization == specialization.ToModel()).Select(d => d.ToDomain());
         }
 
         public IEnumerable<Doctor> GetAll()
         {
-            return _context.Doctors.Select(d => d.ToDomian());
+            return _context.Doctors.Select(d => d.ToDomain());
         }
 
         public Doctor? GetItem(int id)
         {
-            return _context.Doctors.FirstOrDefault(d => d.Id == id)?.ToDomian();
+            return _context.Doctors.FirstOrDefault(d => d.Id == id)?.ToDomain();
         }
 
         public void Save()

@@ -11,17 +11,17 @@ namespace Database.Converters
             {
                 Id = model.Id,
                 Fio = model.Fio,
-                Specialization = model.Specialization
+                Specialization = model.Specialization.ToModel()
             };
         }
 
-        public static Doctor ToDomian(this DoctorModel model)
+        public static Doctor ToDomain(this DoctorModel model)
         {
             return new Doctor
             {
                 Id = model.Id,
                 Fio = model.Fio,
-                Specialization = model.Specialization
+                Specialization = model.Specialization.ToDomain()
             };
         }
     }

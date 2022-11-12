@@ -31,12 +31,12 @@ namespace Database.Repository
 
         public IEnumerable<Specialization> GetAll()
         {
-            return _context.Specializations.Select(s => s.ToDomian());
+            return _context.Specializations.Select(s => s.ToDomain());
         }
 
         public Specialization? GetItem(int id)
         {
-            return _context.Specializations.FirstOrDefault(s => s.Id == id)?.ToDomian();
+            return _context.Specializations.FirstOrDefault(s => s.Id == id)?.ToDomain();
         }
 
         public void Save()

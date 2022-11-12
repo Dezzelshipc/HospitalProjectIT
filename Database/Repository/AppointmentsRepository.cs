@@ -31,28 +31,29 @@ namespace Database.Repository
 
         public IEnumerable<Appointment> GetAll()
         {
-            return _context.Appointments.Select(a => a.ToDomian());
+            return _context.Appointments.Select(a => a.ToDomain());
         }
 
         public IEnumerable<Appointment> GetAppointments(int doctorId)
         {
-            return _context.Appointments.Where(a => a.DoctorId == doctorId).Select(a => a.ToDomian());
+            return _context.Appointments.Where(a => a.DoctorId == doctorId).Select(a => a.ToDomain());
         }
 
         public IEnumerable<Appointment> GetExistingAppointments(Specialization specialization)
         {
-            var docs = _context.Doctors.Where(d => d.Specialization == specialization);
-            return _context.Appointments.Where(a => docs.Any(d => d.Id == a.DoctorId)).Select(a => a.ToDomian());
+            var docs = _context.Doctors.Where(d => d.Specialization == specialization.ToModel());
+            return _context.Appointments.Where(a => docs.Any(d => d.Id == a.DoctorId)).Select(a => a.ToDomain());
         }
 
         public IEnumerable<DateTime> GetFreeAppointments(Specialization specialization)
         {
-            return _context.Appointments.Where(a => a.PatientId == -1).Select(a => a.StartTime);
+            var docs = _context.Doctors.Where(d => d.Specialization == specialization.ToModel());
+            return _context.Appointments.Where(a => a.PatientId == -1 && docs.Any(d => d.Id == a.DoctorId)).Select(a => a.StartTime);
         }
 
         public Appointment? GetItem(int id)
         {
-            return _context.Appointments.FirstOrDefault(a => a.Id == id)?.ToDomian();
+            return _context.Appointments.FirstOrDefault(a => a.Id == id)?.ToDomain();
         }
 
         public void Save()

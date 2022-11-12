@@ -3,7 +3,7 @@ using domain.Models;
 
 namespace Database.Converters
 {
-    public static class DomianModelSpecializationConverter
+    public static class DomainModelSpecializationConverter
     {
         public static SpecializationModel ToModel(this Specialization model)
         {
@@ -14,7 +14,7 @@ namespace Database.Converters
             };
         }
 
-        public static Specialization ToDomian(this SpecializationModel model)
+        public static Specialization ToDomain(this SpecializationModel model)
         {
             return new Specialization
             {

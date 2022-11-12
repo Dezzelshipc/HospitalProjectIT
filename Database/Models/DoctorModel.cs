@@ -1,11 +1,9 @@
-﻿using domain.Models;
-
-namespace Database.Models
+﻿namespace Database.Models
 {
     public class DoctorModel
     {
-        public int Id;
-        public string Fio;
-        public Specialization Specialization;
+        public int Id { get; set; }
+        public string Fio { get; set; }
+        public SpecializationModel Specialization { get; set; }
     }
 }

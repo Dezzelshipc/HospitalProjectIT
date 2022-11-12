@@ -15,23 +15,9 @@ namespace Database
         public ApplicationContext(DbContextOptions options) : base(options) { }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<UserModel>().HasKey(model => model.Id);
-            modelBuilder.Entity<UserModel>().HasIndex(model => model.UserName);
-            modelBuilder.Entity<UserModel>().HasIndex(model => model.Password);
-            modelBuilder.Entity<UserModel>().HasIndex(model => model.Fio);
-            modelBuilder.Entity<UserModel>().HasIndex(model => model.PhoneNumber);
-            modelBuilder.Entity<UserModel>().HasIndex(model => model.Role);
-
-            modelBuilder.Entity<DoctorModel>().HasKey(model => model.Id);
-
-            modelBuilder.Entity<AppointmentModel>().HasKey(model => model.Id);
-
-            modelBuilder.Entity<ScheduleModel>().HasKey(model => model.Id);
-
-            modelBuilder.Entity<SpecializationModel>().HasKey(model => model.Id);
-
-
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<UserModel>().HasIndex(model => model.UserName);
         }
     }
 }
