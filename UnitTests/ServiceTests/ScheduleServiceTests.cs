@@ -39,22 +39,10 @@
         }
 
         [Fact]
-        public void Add_IvalidDoctor_F()
-        {
-            var doctor = new Doctor();
-            var schedule = new Schedule();
-            var result = _scheduleService.AddSchedule(doctor, schedule);
-
-            Assert.True(result.IsFailure);
-            Assert.Contains("Invalid doctor: ", result.Error);
-        }
-
-        [Fact]
         public void Add_IvalidSchedule_F()
         {
-            var doctor = new Doctor(0, "a", new Specialization(0, "a"));
             var schedule = new Schedule(-1, DateTime.MinValue, DateTime.MinValue);
-            var result = _scheduleService.AddSchedule(doctor, schedule);
+            var result = _scheduleService.AddSchedule(schedule);
 
             Assert.True(result.IsFailure);
             Assert.Contains("Invalid schedule: ", result.Error);
@@ -63,11 +51,10 @@
         [Fact]
         public void Add_Error_F()
         {
-            _scheduleRepositoryMock.Setup(rep => rep.AddSchedule(It.IsAny<Doctor>(), It.IsAny<Schedule>())).Returns(() => false);
+            _scheduleRepositoryMock.Setup(rep => rep.Create(It.IsAny<Schedule>())).Returns(() => false);
 
-            var doctor = new Doctor(0, "a", new Specialization(0, "a"));
             var schedule = new Schedule();
-            var result = _scheduleService.AddSchedule(doctor, schedule);
+            var result = _scheduleService.AddSchedule(schedule);
 
             Assert.True(result.IsFailure);
             Assert.Equal("Unable to add schedule", result.Error);
@@ -76,32 +63,19 @@
         [Fact]
         public void Add_Valid_P()
         {
-            _scheduleRepositoryMock.Setup(rep => rep.AddSchedule(It.IsAny<Doctor>(), It.IsAny<Schedule>())).Returns(() => true);
+            _scheduleRepositoryMock.Setup(rep => rep.Create(It.IsAny<Schedule>())).Returns(() => true);
 
-            var doctor = new Doctor(0, "a", new Specialization(0, "a"));
             var schedule = new Schedule();
-            var result = _scheduleService.AddSchedule(doctor, schedule);
+            var result = _scheduleService.AddSchedule(schedule);
 
             Assert.True(result.Success);
         }
 
         [Fact]
-        public void Update_IvalidDoctor_F()
-        {
-            var doctor = new Doctor();
-            var schedule = new Schedule();
-            var result = _scheduleService.UpdateSchedule(doctor, schedule);
-
-            Assert.True(result.IsFailure);
-            Assert.Contains("Invalid doctor: ", result.Error);
-        }
-
-        [Fact]
         public void Update_IvalidSchedule_F()
         {
-            var doctor = new Doctor(0, "a", new Specialization(0, "a"));
             var schedule = new Schedule(-1, DateTime.MinValue, DateTime.MinValue);
-            var result = _scheduleService.UpdateSchedule(doctor, schedule);
+            var result = _scheduleService.UpdateSchedule(schedule);
 
             Assert.True(result.IsFailure);
             Assert.Contains("Invalid schedule: ", result.Error);
@@ -110,11 +84,10 @@
         [Fact]
         public void Update_Error_F()
         {
-            _scheduleRepositoryMock.Setup(rep => rep.UpdateSchedule(It.IsAny<Doctor>(), It.IsAny<Schedule>())).Returns(() => false);
+            _scheduleRepositoryMock.Setup(rep => rep.Update(It.IsAny<Schedule>())).Returns(() => false);
 
-            var doctor = new Doctor(0, "a", new Specialization(0, "a"));
             var schedule = new Schedule();
-            var result = _scheduleService.UpdateSchedule(doctor, schedule);
+            var result = _scheduleService.UpdateSchedule(schedule);
 
             Assert.True(result.IsFailure);
             Assert.Equal("Unable to update schedule", result.Error);
@@ -123,11 +96,10 @@
         [Fact]
         public void Update_Valid_P()
         {
-            _scheduleRepositoryMock.Setup(rep => rep.UpdateSchedule(It.IsAny<Doctor>(), It.IsAny<Schedule>())).Returns(() => true);
+            _scheduleRepositoryMock.Setup(rep => rep.Update(It.IsAny<Schedule>())).Returns(() => true);
 
-            var doctor = new Doctor(0, "a", new Specialization(0, "a"));
             var schedule = new Schedule();
-            var result = _scheduleService.UpdateSchedule(doctor, schedule);
+            var result = _scheduleService.UpdateSchedule(schedule);
 
             Assert.True(result.Success);
         }

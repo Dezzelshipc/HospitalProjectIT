@@ -4,14 +4,18 @@ namespace domain.Models
 {
     public class Appointment
     {
+        public int Id;
         public DateTime StartTime;
         public DateTime EndTime;
         public int PatientId;
         public int DoctorId;
 
-        public Appointment() : this(DateTime.MinValue, DateTime.MinValue, 0, 0) { }
-        public Appointment(DateTime startTime, DateTime endTime, int patientId, int doctorId)
+        public Appointment() : this(0, DateTime.MinValue, DateTime.MinValue, 0, 0) { }
+        public Appointment(DateTime startTime, DateTime endTime, int patientId, int doctorId) 
+            : this(0, startTime, endTime, patientId, doctorId) { }
+        public Appointment(int id, DateTime startTime, DateTime endTime, int patientId, int doctorId)
         {
+            Id = id;
             StartTime = startTime;
             EndTime = endTime;
             PatientId = patientId;
@@ -20,6 +24,9 @@ namespace domain.Models
 
         public Result IsValid()
         {
+            if (Id < 0)
+                return Result.Fail("Invalid id");
+
             if (PatientId < -1)
                 return Result.Fail("Invalid patient id");
 

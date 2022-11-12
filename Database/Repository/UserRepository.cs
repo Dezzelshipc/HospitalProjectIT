@@ -4,7 +4,7 @@ using domain.Models;
 
 namespace Database.Repository
 {
-    internal class UserRepository : IUserRepository
+    public class UserRepository : IUserRepository
     {
         private readonly ApplicationContext _context;
 
@@ -13,24 +13,20 @@ namespace Database.Repository
             _context = context;
         }
 
-        public void Create(User item)
+        public bool Create(User item)
         {
             _context.Users.Add(item.ToModel());
-        }
-
-        public bool CreateUser(User user)
-        {
-            // false ?
-            Create(user);
             return true;
         }
 
-        public void Delete(int id)
+        public bool Delete(int id)
         {
             var user = GetItem(id);
-            if (user != default)
-                _context.Users.Remove(user.ToModel());
+            if (user == default)
+                return false;
 
+            _context.Users.Remove(user.ToModel());
+            return true;
         }
 
         public IEnumerable<User> GetAll()
@@ -60,9 +56,10 @@ namespace Database.Repository
             _context.SaveChanges();
         }
 
-        public void Update(User item)
+        public bool Update(User item)
         {
-            _context.Update(item.ToModel());
+            _context.Users.Update(item.ToModel());
+            return true;
         }
     }
 }

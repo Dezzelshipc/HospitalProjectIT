@@ -30,7 +30,7 @@ namespace domain.UseCases
             if (apps.Any(a => appointment.StartTime < a.EndTime && a.StartTime < appointment.EndTime))
                 return Result.Fail<Appointment>("Appointment time already taken");
 
-            return _db.SaveAppointment(appointment) ? Result.Ok(appointment) : Result.Fail<Appointment>("Unable to save appointment");
+            return _db.Create(appointment) ? Result.Ok(appointment) : Result.Fail<Appointment>("Unable to save appointment");
         }
 
         public Result<IEnumerable<Appointment>> GetExistingAppointments(Specialization specialization)

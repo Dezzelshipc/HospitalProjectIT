@@ -21,29 +21,21 @@ namespace domain.UseCases
 
             return Result.Ok(_db.GetSchedule(doctor));
         }
-        public Result AddSchedule(Doctor doctor, Schedule schedule)
+        public Result AddSchedule(Schedule schedule)
         {
-            var result = doctor.IsValid();
+            var result = schedule.IsValid();
             if (result.IsFailure)
-                return Result.Fail("Invalid doctor: " + result.Error);
+                return Result.Fail("Invalid schedule: " + result.Error);
 
-            var result1 = schedule.IsValid();
-            if (result1.IsFailure)
-                return Result.Fail("Invalid schedule: " + result1.Error);
-
-            return _db.AddSchedule(doctor, schedule) ? Result.Ok() : Result.Fail<Schedule>("Unable to add schedule");
+            return _db.Create(schedule) ? Result.Ok() : Result.Fail<Schedule>("Unable to add schedule");
         }
-        public Result UpdateSchedule(Doctor doctor, Schedule schedule)
+        public Result UpdateSchedule(Schedule schedule)
         {
-            var result = doctor.IsValid();
+            var result = schedule.IsValid();
             if (result.IsFailure)
-                return Result.Fail("Invalid doctor: " + result.Error);
+                return Result.Fail("Invalid schedule: " + result.Error);
 
-            var result1 = schedule.IsValid();
-            if (result1.IsFailure)
-                return Result.Fail("Invalid schedule: " + result1.Error);
-
-            return _db.UpdateSchedule(doctor, schedule) ? Result.Ok() : Result.Fail("Unable to update schedule");
+            return _db.Update(schedule) ? Result.Ok() : Result.Fail("Unable to update schedule");
         }
     }
 }

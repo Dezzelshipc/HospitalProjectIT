@@ -7,10 +7,12 @@ namespace domain.UseCases
     public class DoctorService
     {
         private readonly IDoctorRepository _db;
+        private readonly IAppointmentRepository _appdb;
 
-        public DoctorService(IDoctorRepository db)
+        public DoctorService(IDoctorRepository db, IAppointmentRepository appdb)
         {
             _db = db;
+            _appdb = appdb;
         }
 
         public Result<Doctor> CreateDoctor(Doctor doctor)
@@ -19,24 +21,28 @@ namespace domain.UseCases
             if (result.IsFailure)
                 return Result.Fail<Doctor>("Invalid doctor: " + result.Error);
 
-            return _db.CreateDoctor(doctor) ? Result.Ok(doctor) : Result.Fail<Doctor>("Unable to create doctor");
+            var result1 = FindDoctor(doctor.Id);
+            if (result1.Success)
+                return Result.Fail<Doctor>("Doctor alredy exists");
+
+            return _db.Create(doctor) ? Result.Ok(doctor) : Result.Fail<Doctor>("Unable to create doctor");
         }
 
-        public Result<Doctor> DeleteDoctor(int id, IEnumerable<Appointment> appointments)
+        public Result<Doctor> DeleteDoctor(int id)
         {
-            if (appointments.Any())
+            if (_appdb.GetAppointments(id).Any())
                 return Result.Fail<Doctor>("Unable to delete doctor: Doctor has appointments");
 
             var result = FindDoctor(id);
             if (result.IsFailure)
                 return Result.Fail<Doctor>(result.Error);
 
-            return _db.DeleteDoctor(id) ? result : Result.Fail<Doctor>("Unable to delete doctor");
+            return _db.Delete(id) ? result : Result.Fail<Doctor>("Unable to delete doctor");
         }
 
         public Result<IEnumerable<Doctor>> GetAllDoctors()
         {
-            return Result.Ok(_db.GetAllDoctors());
+            return Result.Ok(_db.GetAll());
         }
 
         public Result<Doctor> FindDoctor(int id)
@@ -44,17 +50,17 @@ namespace domain.UseCases
             if (id < 0)
                 return Result.Fail<Doctor>("Invalid id");
 
-            var doctor = _db.FindDoctor(id);
+            var doctor = _db.GetItem(id);
 
             return doctor != null ? Result.Ok(doctor) : Result.Fail<Doctor>("Doctor not found");
         }
-        public Result<IEnumerable<Doctor>> FindDoctor(Specialization specialization)
+        public Result<IEnumerable<Doctor>> FindDoctors(Specialization specialization)
         {
             var result = specialization.IsValid();
             if (result.IsFailure)
                 return Result.Fail<IEnumerable<Doctor>>("Invalid specialization: " + result.Error);
 
-            var doctors = _db.FindDoctor(specialization);
+            var doctors = _db.FindDoctors(specialization);
 
             return doctors.Any() ? Result.Ok(doctors) : Result.Fail<IEnumerable<Doctor>>("Doctors not found");
         }

@@ -90,7 +90,7 @@
                 new Appointment(DateTime.Parse("1000-01-20"), DateTime.MaxValue, 0, 0)
             };
             _appRepositoryMock.Setup(x => x.GetAppointments(It.IsAny<int>())).Returns(() => apps);
-            _appRepositoryMock.Setup(x => x.SaveAppointment(It.IsAny<Appointment>())).Returns(() => true);
+            _appRepositoryMock.Setup(x => x.Create(It.IsAny<Appointment>())).Returns(() => true);
 
             var app = new Appointment(DateTime.Parse("1000-01-01"), DateTime.Parse("1000-01-20"), 0, 0);
             var sched = new Schedule(0, DateTime.MinValue, DateTime.MaxValue);
@@ -104,7 +104,7 @@
         {
             List<Appointment> apps = new();
             _appRepositoryMock.Setup(x => x.GetAppointments(It.IsAny<int>())).Returns(() => apps);
-            _appRepositoryMock.Setup(x => x.SaveAppointment(It.IsAny<Appointment>())).Returns(() => false);
+            _appRepositoryMock.Setup(x => x.Create(It.IsAny<Appointment>())).Returns(() => false);
 
             var app = new Appointment();
             var sched = new Schedule(0, DateTime.MinValue, DateTime.MaxValue);
@@ -119,7 +119,7 @@
         {
             List<Appointment> apps = new();
             _appRepositoryMock.Setup(x => x.GetAppointments(It.IsAny<int>())).Returns(() => apps);
-            _appRepositoryMock.Setup(x => x.SaveAppointment(It.IsAny<Appointment>())).Returns(() => true);
+            _appRepositoryMock.Setup(x => x.Create(It.IsAny<Appointment>())).Returns(() => true);
 
             var app = new Appointment();
             var sched = new Schedule(0, DateTime.MinValue, DateTime.MaxValue);
