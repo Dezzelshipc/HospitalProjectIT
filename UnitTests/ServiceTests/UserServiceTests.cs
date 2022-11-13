@@ -105,7 +105,7 @@
             _userRepositoryMock.Setup(repository => repository.IsUserExists(It.IsAny<string>()))
                 .Returns(() => false);
 
-            _userRepositoryMock.Setup(repository => repository.CreateUser(It.IsAny<User>()))
+            _userRepositoryMock.Setup(repository => repository.Create(It.IsAny<User>()))
                 .Returns(() => false);
 
             var res = _userService.Register(new User(1, "a", "a", Role.Patient, "a", "a"));
@@ -120,7 +120,7 @@
             _userRepositoryMock.Setup(repository => repository.IsUserExists(It.IsAny<string>()))
                 .Returns(() => false);
 
-            _userRepositoryMock.Setup(repository => repository.CreateUser(It.IsAny<User>()))
+            _userRepositoryMock.Setup(repository => repository.Create(It.IsAny<User>()))
                 .Returns(() => true);
 
             var res = _userService.Register(new User(1, "a", "a", Role.Patient, "a", "a"));
