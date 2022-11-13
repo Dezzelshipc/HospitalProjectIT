@@ -60,7 +60,7 @@ namespace Database.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Schedlues");
+                    b.ToTable("Schedules");
                 });
 
             modelBuilder.Entity("Database.Models.SpecializationModel", b =>

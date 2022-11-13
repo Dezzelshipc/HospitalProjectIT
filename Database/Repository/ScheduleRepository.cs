@@ -15,7 +15,7 @@ namespace Database.Repository
 
         public bool Create(Schedule item)
         {
-            _context.Schedlues.Add(item.ToModel());
+            _context.Schedules.Add(item.ToModel());
             return true;
         }
 
@@ -25,23 +25,23 @@ namespace Database.Repository
             if (sched == default)
                 return false;
 
-            _context.Schedlues.Remove(sched.ToModel());
+            _context.Schedules.Remove(sched.ToModel());
             return true;
         }
 
         public IEnumerable<Schedule> GetAll()
         {
-            return _context.Schedlues.Select(s => s.ToDomain());
+            return _context.Schedules.Select(s => s.ToDomain());
         }
 
         public Schedule? GetItem(int id)
         {
-            return _context.Schedlues.FirstOrDefault(s => s.Id == id)?.ToDomain();
+            return _context.Schedules.FirstOrDefault(s => s.Id == id)?.ToDomain();
         }
 
         public IEnumerable<Schedule> GetSchedule(Doctor doctor)
         {
-            return _context.Schedlues.Where(s => s.DoctorId == doctor.Id).Select(s => s.ToDomain());
+            return _context.Schedules.Where(s => s.DoctorId == doctor.Id).Select(s => s.ToDomain());
         }
 
         public void Save()
@@ -51,7 +51,7 @@ namespace Database.Repository
 
         public bool Update(Schedule item)
         {
-            _context.Schedlues.Update(item.ToModel());
+            _context.Schedules.Update(item.ToModel());
             return true;
         }
     }

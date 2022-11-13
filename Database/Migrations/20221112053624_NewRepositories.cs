@@ -36,7 +36,7 @@ namespace Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Schedlues",
+                name: "Schedules",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -70,7 +70,7 @@ namespace Database.Migrations
                 name: "Doctors");
 
             migrationBuilder.DropTable(
-                name: "Schedlues");
+                name: "Schedules");
 
             migrationBuilder.DropTable(
                 name: "Specializations");
