@@ -24,7 +24,7 @@ namespace UnitTests.DatabaseTests
 
             var userRep = new UserRepository(context);
 
-            userRep.Create(new User(0, "123123", "fiofio", Role.Patient, "Name", "Pass"));
+            userRep.Create(new User(0, "123333123", "fiofio321", Role.Administrator, "Name321", "Pass123"));
 
             context.SaveChanges();
 
