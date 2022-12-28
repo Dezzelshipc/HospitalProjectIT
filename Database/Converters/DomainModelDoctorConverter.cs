@@ -11,7 +11,7 @@ namespace Database.Converters
             {
                 Id = model.Id,
                 Fio = model.Fio,
-                Specialization = model.Specialization.ToModel()
+                SpecializationId = model.SpecializationId
             };
         }
 
@@ -21,7 +21,7 @@ namespace Database.Converters
             {
                 Id = model.Id,
                 Fio = model.Fio,
-                Specialization = model.Specialization.ToDomain()
+                SpecializationId = model.SpecializationId
             };
         }
     }

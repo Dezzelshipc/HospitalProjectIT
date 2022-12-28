@@ -30,7 +30,12 @@ namespace domain.UseCases
             if (apps.Any(a => appointment.StartTime < a.EndTime && a.StartTime < appointment.EndTime))
                 return Result.Fail<Appointment>("Appointment time already taken");
 
-            return _db.Create(appointment) ? Result.Ok(appointment) : Result.Fail<Appointment>("Unable to save appointment");
+            if (_db.Create(appointment))
+            {
+                _db.Save();
+                return Result.Ok(appointment);
+            }
+            return  Result.Fail<Appointment>("Unable to save appointment");
         }
 
         public Result<IEnumerable<Appointment>> GetExistingAppointments(Specialization specialization)
@@ -42,13 +47,17 @@ namespace domain.UseCases
             return Result.Ok(_db.GetExistingAppointments(specialization));
         }
 
-        public Result<IEnumerable<DateTime>> GetFreeAppointments(Specialization specialization)
+        public Result<IEnumerable<DateTime>> GetFreeAppointments(Specialization specialization, Schedule schedule)
         {
             var result = specialization.IsValid();
             if (result.IsFailure)
                 return Result.Fail<IEnumerable<DateTime>>("Invalid specialization: " + result.Error);
 
-            return Result.Ok(_db.GetFreeAppointments(specialization));
+            result = schedule.IsValid();
+            if (result.IsFailure)
+                return Result.Fail<IEnumerable<DateTime>>("Invalid specialization: " + result.Error);
+
+            return Result.Ok(_db.GetFreeAppointments(specialization, schedule));
         }
     }
 }

@@ -16,7 +16,7 @@ namespace UnitTests.IsValidTest
         [Fact]
         public void NegativeID_F()
         {
-            var doctor = new Doctor(-1, "a", new Specialization(0, "a"));
+            var doctor = new Doctor(-1, "a", 0);
             var check = doctor.IsValid();
 
             Assert.True(check.IsFailure);
@@ -26,7 +26,7 @@ namespace UnitTests.IsValidTest
         [Fact]
         public void EmptyFio_F()
         {
-            var doctor = new Doctor(1, "", new Specialization(0, "a"));
+            var doctor = new Doctor(1, "", 0);
             var check = doctor.IsValid();
 
             Assert.True(check.IsFailure);
@@ -36,17 +36,17 @@ namespace UnitTests.IsValidTest
         [Fact]
         public void InvalidSpecialization_F()
         {
-            var doctor = new Doctor(0, "a", new Specialization());
+            var doctor = new Doctor(0, "a", -1);
             var check = doctor.IsValid();
 
             Assert.True(check.IsFailure);
-            Assert.Contains("Invalid specialization: ", check.Error);
+            Assert.Contains("Invalid specialization id", check.Error);
         }
 
         [Fact]
         public void ValidDoctor_P()
         {
-            var doctor = new Doctor(0, "a", new Specialization(0, "a"));
+            var doctor = new Doctor(0, "a", 0);
             var check = doctor.IsValid();
 
             Assert.True(check.Success);

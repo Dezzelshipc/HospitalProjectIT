@@ -21,11 +21,11 @@ namespace Database.Repository
 
         public bool Delete(int id)
         {
-            var sched = GetItem(id);
+            var sched = _context.Schedules.FirstOrDefault(s => s.Id == id);
             if (sched == default)
                 return false;
 
-            _context.Schedules.Remove(sched.ToModel());
+            _context.Schedules.Remove(sched);
             return true;
         }
 

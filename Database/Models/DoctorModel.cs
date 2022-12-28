@@ -4,6 +4,6 @@
     {
         public int Id { get; set; }
         public string Fio { get; set; }
-        public SpecializationModel Specialization { get; set; }
+        public int SpecializationId { get; set; }
     }
 }

@@ -21,13 +21,27 @@ namespace domain.UseCases
 
             return Result.Ok(_db.GetSchedule(doctor));
         }
+
+        public Result<Schedule> GetSchedule(int doctorId)
+        {
+            var res = _db.GetItem(doctorId);
+            if (res == default)
+                return Result.Fail<Schedule>("Schedule not found");
+            return Result.Ok(res);
+        }
+
         public Result AddSchedule(Schedule schedule)
         {
             var result = schedule.IsValid();
             if (result.IsFailure)
                 return Result.Fail("Invalid schedule: " + result.Error);
-
-            return _db.Create(schedule) ? Result.Ok() : Result.Fail<Schedule>("Unable to add schedule");
+            
+            if (_db.Create(schedule))
+            {
+                _db.Save();
+                return Result.Ok();
+            }
+            return Result.Fail<Schedule>("Unable to add schedule");
         }
         public Result UpdateSchedule(Schedule schedule)
         {
@@ -35,7 +49,12 @@ namespace domain.UseCases
             if (result.IsFailure)
                 return Result.Fail("Invalid schedule: " + result.Error);
 
-            return _db.Update(schedule) ? Result.Ok() : Result.Fail("Unable to update schedule");
+            if (_db.Update(schedule))
+            {
+                _db.Save();
+                return Result.Ok();
+            }
+            return Result.Fail("Unable to update schedule");
         }
     }
 }

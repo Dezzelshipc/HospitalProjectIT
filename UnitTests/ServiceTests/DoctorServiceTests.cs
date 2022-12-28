@@ -29,8 +29,8 @@ namespace UnitTests.ServiceTests
         [Fact]
         public void Create_IdError_F()
         {
-            _doctorRepositoryMock.Setup(r => r.GetItem(It.IsAny<int>())).Returns(() => new Doctor(0, "a", new Specialization(1, "a")));
-            var doctor = new Doctor(0, "a", new Specialization(1, "a"));
+            _doctorRepositoryMock.Setup(r => r.GetItem(It.IsAny<int>())).Returns(() => new Doctor(0, "a", 1));
+            var doctor = new Doctor(0, "a", 1);
             var result = _doctorService.CreateDoctor(doctor);
 
             Assert.True(result.IsFailure);
@@ -41,7 +41,7 @@ namespace UnitTests.ServiceTests
         public void Create_CreateError_F()
         {
             _doctorRepositoryMock.Setup(repository => repository.Create(It.IsAny<Doctor>())).Returns(() => false);
-            var doctor = new Doctor(0, "a", new Specialization(1, "a"));
+            var doctor = new Doctor(0, "a",1);
             var result = _doctorService.CreateDoctor(doctor);
 
             Assert.True(result.IsFailure);
@@ -52,7 +52,7 @@ namespace UnitTests.ServiceTests
         public void Create_Valid_P()
         {
             _doctorRepositoryMock.Setup(repository => repository.Create(It.IsAny<Doctor>())).Returns(() => true);
-            var doctor = new Doctor(0, "a", new Specialization(1, "a"));
+            var doctor = new Doctor(0, "a", 1);
             var result = _doctorService.CreateDoctor(doctor);
 
             Assert.True(result.Success);
@@ -104,7 +104,7 @@ namespace UnitTests.ServiceTests
         public void Delete_DeleteError_F()
         {
             List<Appointment> apps = new();
-            _doctorRepositoryMock.Setup(repository => repository.GetItem(It.IsAny<int>())).Returns(() => new Doctor(0, "a", new Specialization(0, "a")));
+            _doctorRepositoryMock.Setup(repository => repository.GetItem(It.IsAny<int>())).Returns(() => new Doctor(0, "a", 0));
             _doctorRepositoryMock.Setup(repository => repository.Delete(It.IsAny<int>())).Returns(() => false);
 
             var result = _doctorService.DeleteDoctor(0);
@@ -117,7 +117,7 @@ namespace UnitTests.ServiceTests
         public void Delete_Valid_P()
         {
             List<Appointment> apps = new();
-            _doctorRepositoryMock.Setup(repository => repository.GetItem(It.IsAny<int>())).Returns(() => new Doctor(0, "a", new Specialization(0, "a")));
+            _doctorRepositoryMock.Setup(repository => repository.GetItem(It.IsAny<int>())).Returns(() => new Doctor(0, "a", 0));
             _doctorRepositoryMock.Setup(repository => repository.Delete(It.IsAny<int>())).Returns(() => true);
 
             var result = _doctorService.DeleteDoctor(0);
@@ -130,8 +130,8 @@ namespace UnitTests.ServiceTests
         {
             List<Doctor> doctors = new()
             {
-                new Doctor(0, "a", new Specialization(0, "a")),
-                new Doctor(1, "as", new Specialization(0, "a"))
+                new Doctor(0, "a", 0),
+                new Doctor(1, "as", 0)
             };
             IEnumerable<Doctor> d = doctors;
             _doctorRepositoryMock.Setup(repository => repository.GetAll()).Returns(() => d);
@@ -164,7 +164,7 @@ namespace UnitTests.ServiceTests
         [Fact]
         public void FindID_Valid_P()
         {
-            _doctorRepositoryMock.Setup(repository => repository.GetItem(It.IsAny<int>())).Returns(() => new Doctor(0, "a", new Specialization(0, "a")));
+            _doctorRepositoryMock.Setup(repository => repository.GetItem(It.IsAny<int>())).Returns(() => new Doctor(0, "a", 0));
 
             var result = _doctorService.FindDoctor(0);
 
@@ -196,7 +196,7 @@ namespace UnitTests.ServiceTests
         {
             List<Doctor> list = new()
             {
-                new Doctor(0, "a", new Specialization(0, "a"))
+                new Doctor(0, "a", 0)
             };
             _doctorRepositoryMock.Setup(repository => repository.FindDoctors(It.IsAny<Specialization>())).Returns(() => list);
 

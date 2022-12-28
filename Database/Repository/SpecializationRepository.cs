@@ -4,7 +4,7 @@ using domain.Models;
 
 namespace Database.Repository
 {
-    public class SpecializationRepository : IRepository<Specialization>
+    public class SpecializationRepository : ISpecializationRepository
     {
         private readonly ApplicationContext _context;
 
@@ -21,17 +21,22 @@ namespace Database.Repository
 
         public bool Delete(int id)
         {
-            var spec = GetItem(id);
+            var spec = _context.Specializations.FirstOrDefault(s => s.Id == id);
             if (spec == default)
                 return false;
 
-            _context.Specializations.Remove(spec.ToModel());
+            _context.Specializations.Remove(spec);
             return true;
         }
 
         public IEnumerable<Specialization> GetAll()
         {
             return _context.Specializations.Select(s => s.ToDomain());
+        }
+
+        public Specialization? GetByName(string name)
+        {
+            return _context.Specializations.FirstOrDefault(s => s.Name == name)?.ToDomain();
         }
 
         public Specialization? GetItem(int id)
