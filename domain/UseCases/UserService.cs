@@ -22,7 +22,12 @@ namespace domain.UseCases
             if (_db.IsUserExists(user.UserName))
                 return Result.Fail<User>("Username already exists");
 
-            return _db.Create(user) ? Result.Ok(user) : Result.Fail<User>("Unable to create user");
+            if (_db.Create(user))
+            {
+                _db.Save();
+                return Result.Ok(user);
+            }
+            return Result.Fail<User>("Unable to create user");
         }
 
         public Result<User> GetUserByLogin(string login)
@@ -41,6 +46,11 @@ namespace domain.UseCases
                 return Result.Fail<bool>("Invalid login");
 
             return Result.Ok(_db.IsUserExists(login));
+        }
+
+        public Result<IEnumerable<User>> GetAll()
+        {
+            return Result.Ok(_db.GetAll());
         }
     }
 }

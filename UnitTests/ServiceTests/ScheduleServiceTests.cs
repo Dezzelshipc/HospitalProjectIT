@@ -32,7 +32,7 @@
             IEnumerable<Schedule> s = scheds;
             _scheduleRepositoryMock.Setup(rep => rep.GetSchedule(It.IsAny<Doctor>())).Returns(() => s);
 
-            var doctor = new Doctor(0, "a", new Specialization(0, "a"));
+            var doctor = new Doctor(0, "a", 0);
             var result = _scheduleService.GetSchedule(doctor);
 
             Assert.True(result.Success);

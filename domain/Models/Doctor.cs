@@ -4,16 +4,16 @@ namespace domain.Models
 {
     public class Doctor
     {
-        public int Id;
-        public string Fio;
-        public Specialization Specialization;
+        public int Id { get; set; }
+        public string Fio { get; set; }
+        public int SpecializationId { get; set; }
 
-        public Doctor() : this(0, "", new Specialization()) { }
-        public Doctor(int id, string fio, Specialization specialization)
+        public Doctor() : this(0, "", 0) { }
+        public Doctor(int id, string fio, int specialization)
         {
             Id = id;
             Fio = fio;
-            Specialization = specialization;
+            SpecializationId = specialization;
         }
         public Result IsValid()
         {
@@ -23,9 +23,8 @@ namespace domain.Models
             if (string.IsNullOrEmpty(Fio))
                 return Result.Fail("Invalid fio");
 
-            var result = Specialization.IsValid();
-            if (result.IsFailure)
-                return Result.Fail("Invalid specialization: " + result.Error);
+            if (SpecializationId < 0)
+                return Result.Fail("Invalid specialization id");
 
             return Result.Ok();
         }

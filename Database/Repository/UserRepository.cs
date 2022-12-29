@@ -21,11 +21,11 @@ namespace Database.Repository
 
         public bool Delete(int id)
         {
-            var user = GetItem(id);
+            var user = _context.Users.FirstOrDefault(u => u.Id == id);
             if (user == default)
                 return false;
 
-            _context.Users.Remove(user.ToModel());
+            _context.Users.Remove(user);
             return true;
         }
 

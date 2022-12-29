@@ -6,6 +6,6 @@ namespace domain.Logic.Interfaces
     {
         IEnumerable<Appointment> GetAppointments(int doctorId);
         IEnumerable<Appointment> GetExistingAppointments(Specialization specialization);
-        IEnumerable<DateTime> GetFreeAppointments(Specialization specialization);
+        IEnumerable<DateTime> GetFreeAppointments(Specialization specialization, Schedule schedule);
     }
 }

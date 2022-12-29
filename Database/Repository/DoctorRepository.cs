@@ -21,22 +21,22 @@ namespace Database.Repository
 
         public bool Delete(int id)
         {
-            var doctor = GetItem(id);
+            var doctor = _context.Doctors.FirstOrDefault(d => d.Id == id);
             if (doctor == default)
                 return false;
 
-            _context.Remove(doctor.ToModel());
+            _context.Remove(doctor);
             return true;
         }
 
         public Doctor? FindDoctor(Specialization specialization)
         {
-            return _context.Doctors.FirstOrDefault(d => d.Specialization == specialization.ToModel())?.ToDomain();
+            return _context.Doctors.FirstOrDefault(d => d.SpecializationId == specialization.Id)?.ToDomain();
         }
 
         public IEnumerable<Doctor> FindDoctors(Specialization specialization)
         {
-            return _context.Doctors.Where(d => d.Specialization == specialization.ToModel()).Select(d => d.ToDomain());
+            return _context.Doctors.Where(d => d.SpecializationId == specialization.Id).Select(d => d.ToDomain());
         }
 
         public IEnumerable<Doctor> GetAll()

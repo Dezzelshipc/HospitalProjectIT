@@ -4,7 +4,7 @@ using domain.Models;
 
 namespace Database.Repository
 {
-    internal class AppointmentsRepository : IAppointmentRepository
+    public class AppointmentsRepository : IAppointmentRepository
     {
         private readonly ApplicationContext _context;
 
@@ -21,11 +21,11 @@ namespace Database.Repository
 
         public bool Delete(int id)
         {
-            var app = GetItem(id);
+            var app = _context.Appointments.FirstOrDefault(a => a.Id == id);
             if (app == default)
                 return false;
 
-            _context.Appointments.Remove(app.ToModel());
+            _context.Appointments.Remove(app);
             return true;
         }
 
@@ -41,14 +41,21 @@ namespace Database.Repository
 
         public IEnumerable<Appointment> GetExistingAppointments(Specialization specialization)
         {
-            var docs = _context.Doctors.Where(d => d.Specialization == specialization.ToModel());
+            var docs = _context.Doctors.Where(d => d.SpecializationId == specialization.Id);
             return _context.Appointments.Where(a => docs.Any(d => d.Id == a.DoctorId)).Select(a => a.ToDomain());
         }
 
-        public IEnumerable<DateTime> GetFreeAppointments(Specialization specialization)
+        public IEnumerable<DateTime> GetFreeAppointments(Specialization specialization, Schedule schedule)
         {
-            var docs = _context.Doctors.Where(d => d.Specialization == specialization.ToModel());
-            return _context.Appointments.Where(a => a.PatientId == -1 && docs.Any(d => d.Id == a.DoctorId)).Select(a => a.StartTime);
+            var docs = _context.Doctors.Where(d => d.SpecializationId == specialization.Id && d.Id == schedule.DoctorId);
+            var existing = _context.Appointments.Where(a => docs.Any(d => d.Id == a.DoctorId)).Select(a => a.StartTime);
+            List<DateTime> free = new();
+            for (DateTime dt = schedule.StartTime; dt < schedule.EndTime; dt.AddMinutes(30))
+            {
+                if (existing.All(a => a != dt))
+                    free.Append(dt);
+            }
+            return free;
         }
 
         public Appointment? GetItem(int id)

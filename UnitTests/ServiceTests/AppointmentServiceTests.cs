@@ -132,8 +132,9 @@
         public void Get_InvalidSpec_F()
         {
             var spec = new Specialization();
+            var sched = new Schedule();
 
-            var res = _appService.GetFreeAppointments(spec);
+            var res = _appService.GetFreeAppointments(spec, sched);
 
             Assert.True(res.IsFailure);
             Assert.Contains("Invalid specialization: ", res.Error);
@@ -170,10 +171,11 @@
                 new DateTime()
             };
 
-            _appRepositoryMock.Setup(repository => repository.GetFreeAppointments(It.IsAny<Specialization>())).Returns(() => dates);
+            _appRepositoryMock.Setup(repository => repository.GetFreeAppointments(It.IsAny<Specialization>(), It.IsAny<Schedule>())).Returns(() => dates);
 
             var spec = new Specialization(0, "a");
-            var res = _appService.GetFreeAppointments(spec);
+            var sched = new Schedule(0, DateTime.MinValue, DateTime.MaxValue);
+            var res = _appService.GetFreeAppointments(spec, sched);
 
             Assert.True(res.Success);
         }
