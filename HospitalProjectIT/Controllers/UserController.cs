@@ -1,5 +1,7 @@
 ﻿using domain.Models;
 using domain.UseCases;
+using HospitalProjectIT.Token;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HospitalProjectIT.Controllers
@@ -40,7 +42,23 @@ namespace HospitalProjectIT.Controllers
                 return Problem(statusCode: 404, detail: register.Error);
 
             _mutexRegister.ReleaseMutex();
-            return Ok(register.Value);
+            return Ok(new { access_token = TokenManager.GetToken(register.Value) });
+        }
+
+        [HttpGet("login")]
+        public IActionResult Login(string username, string password)
+        {
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+                return Problem(statusCode: 404, detail: "Invalid login or password");
+
+            var user = _service.GetUserByLogin(username);
+            if (user.IsFailure)
+                return Problem(statusCode: 404, detail: "Invalid login or password");
+
+            if (!user.Value.Password.Equals(password))
+                return Problem(statusCode: 404, detail: "Invalid login or password");
+
+            return Ok(new { access_token = TokenManager.GetToken(user.Value) });
         }
 
         [HttpGet("is_user")]

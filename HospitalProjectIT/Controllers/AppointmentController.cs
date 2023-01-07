@@ -1,5 +1,6 @@
 ﻿using domain.Models;
 using domain.UseCases;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HospitalProjectIT.Controllers
@@ -17,6 +18,7 @@ namespace HospitalProjectIT.Controllers
             _serviceSched = scheduleService;
         }
 
+        [Authorize]
         [HttpPost("save")]
         public IActionResult SaveAppointment(int patient_id, int doctor_id, DateTime start_time, DateTime end_time, int schedule_id)
         {

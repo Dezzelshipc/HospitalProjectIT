@@ -1,5 +1,6 @@
 ﻿using domain.Models;
 using domain.UseCases;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HospitalProjectIT.Controllers
@@ -15,6 +16,7 @@ namespace HospitalProjectIT.Controllers
             _service = service;
         }
 
+        [Authorize]
         [HttpPost("create")]
         public IActionResult CreateDoctor(string fio, int specialization_id)
         {
@@ -30,6 +32,7 @@ namespace HospitalProjectIT.Controllers
             return Ok(res.Value);
         }
 
+        [Authorize]
         [HttpDelete("delete")]
         public IActionResult DeleteDoctor(int id)
         {

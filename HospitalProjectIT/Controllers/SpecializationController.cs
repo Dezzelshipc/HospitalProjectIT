@@ -1,5 +1,6 @@
 ﻿using domain.Logic.Interfaces;
 using domain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HospitalProjectIT.Controllers
@@ -15,6 +16,7 @@ namespace HospitalProjectIT.Controllers
             _rep = rep;
         }
 
+        [Authorize]
         [HttpPost("add")]
         public IActionResult AddSpecialization(string name)
         {
@@ -36,6 +38,7 @@ namespace HospitalProjectIT.Controllers
             return Problem(statusCode: 404, detail: "Error while creating");
         }
 
+        [Authorize]
         [HttpDelete("delete")]
         public IActionResult DeleteSpecialization(int id)
         {
