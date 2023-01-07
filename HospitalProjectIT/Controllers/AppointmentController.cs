@@ -1,6 +1,5 @@
 ﻿using domain.Models;
 using domain.UseCases;
-using HospitalProjectIT.Views;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HospitalProjectIT.Controllers
@@ -11,6 +10,7 @@ namespace HospitalProjectIT.Controllers
     {
         private readonly AppointmentService _service;
         private readonly ScheduleService _serviceSched;
+        private readonly Mutex _mutexSave = new();
         public AppointmentController(AppointmentService service, ScheduleService scheduleService)
         {
             _service = service;
@@ -21,6 +21,9 @@ namespace HospitalProjectIT.Controllers
         public IActionResult SaveAppointment(int patient_id, int doctor_id, DateTime start_time, DateTime end_time, int schedule_id)
         {
             Appointment appointment = new(0, start_time, end_time, patient_id, doctor_id);
+
+            _mutexSave.WaitOne();
+
             var schedule = _serviceSched.GetSchedule(schedule_id);
             if (schedule.IsFailure)
                 return Problem(statusCode: 404, detail: schedule.Error);
@@ -30,13 +33,15 @@ namespace HospitalProjectIT.Controllers
             if (res.IsFailure)
                 return Problem(statusCode: 404, detail: res.Error);
 
+            _mutexSave.ReleaseMutex();
+
             return Ok(res.Value);
         }
 
         [HttpGet("get/existing")]
         public IActionResult GetExistingAppointments(int specialization_id)
         {
-            Specialization spec = new(specialization_id, ""); 
+            Specialization spec = new(specialization_id, "");
             var res = _service.GetExistingAppointments(spec);
 
             if (res.IsFailure)

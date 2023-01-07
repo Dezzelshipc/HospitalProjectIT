@@ -9,6 +9,7 @@ namespace HospitalProjectIT.Controllers
     public class DoctorController : ControllerBase
     {
         private readonly DoctorService _service;
+        private readonly Mutex _mutexCreate = new(), _mutexDelete = new();
         public DoctorController(DoctorService service)
         {
             _service = service;
@@ -17,23 +18,28 @@ namespace HospitalProjectIT.Controllers
         [HttpPost("create")]
         public IActionResult CreateDoctor(string fio, int specialization_id)
         {
+            _mutexCreate.WaitOne();
+
             Doctor doctor = new(0, fio, specialization_id);
             var res = _service.CreateDoctor(doctor);
 
             if (res.IsFailure)
                 return Problem(statusCode: 404, detail: res.Error);
 
+            _mutexCreate.ReleaseMutex();
             return Ok(res.Value);
         }
 
         [HttpDelete("delete")]
         public IActionResult DeleteDoctor(int id)
         {
+            _mutexDelete.WaitOne();
             var res = _service.DeleteDoctor(id);
 
             if (res.IsFailure)
                 return Problem(statusCode: 404, detail: res.Error);
 
+            _mutexDelete.ReleaseMutex();
             return Ok(res.Value);
         }
 
