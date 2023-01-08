@@ -11,7 +11,6 @@ namespace HospitalProjectIT.Controllers
     public class UserController : ControllerBase
     {
         private readonly UserService _service;
-        private readonly Mutex _mutexRegister = new();
         public UserController(UserService service)
         {
             _service = service;
@@ -35,13 +34,11 @@ namespace HospitalProjectIT.Controllers
         {
             User user = new(0, phone_number, fio, role, username, password);
 
-            _mutexRegister.WaitOne();
             var register = _service.Register(user);
 
             if (register.IsFailure)
                 return Problem(statusCode: 404, detail: register.Error);
 
-            _mutexRegister.ReleaseMutex();
             return Ok(new { access_token = TokenManager.GetToken(register.Value) });
         }
 

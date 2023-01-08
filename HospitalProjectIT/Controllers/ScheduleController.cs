@@ -11,7 +11,6 @@ namespace HospitalProjectIT.Controllers
     {
         private readonly ScheduleService _service;
         private readonly DoctorService _serviceDoc;
-        private readonly Mutex _mutexAdd = new(), _mutexUpdate = new();
         public ScheduleController(ScheduleService service, DoctorService doctorService)
         {
             _service = service;
@@ -38,13 +37,11 @@ namespace HospitalProjectIT.Controllers
         {
             Schedule schedule = new(0, doctor_id, start_time, end_time);
 
-            _mutexAdd.WaitOne();
             var res = _service.AddSchedule(schedule);
 
             if (res.IsFailure)
                 return Problem(statusCode: 404, detail: res.Error);
 
-            _mutexAdd.ReleaseMutex();
             return Ok();
         }
 
@@ -52,7 +49,6 @@ namespace HospitalProjectIT.Controllers
         [HttpPost("update")]
         public IActionResult UpdateSchedule(int schedule_id, int? doctor_id, DateTime? start_time, DateTime? end_time)
         {
-            _mutexUpdate.WaitOne();
             var res = _service.GetSchedule(schedule_id);
             if (res.IsFailure)
                 return Problem(statusCode: 404, detail: res.Error);
@@ -72,7 +68,6 @@ namespace HospitalProjectIT.Controllers
             if (res1.IsFailure)
                 return Problem(statusCode: 404, detail: res1.Error);
 
-            _mutexUpdate.ReleaseMutex();
             return Ok();
         }
     }

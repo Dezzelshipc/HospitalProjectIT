@@ -10,7 +10,6 @@ namespace HospitalProjectIT.Controllers
     public class SpecializationController : ControllerBase
     {
         private readonly ISpecializationRepository _rep;
-        private readonly Mutex _mutexAdd = new(), _mutexDelete = new();
         public SpecializationController(ISpecializationRepository rep)
         {
             _rep = rep;
@@ -25,16 +24,13 @@ namespace HospitalProjectIT.Controllers
             if (res.IsFailure)
                 return Problem(statusCode: 404, detail: res.Error);
 
-            _mutexAdd.WaitOne();
             if (_rep.Create(specialization))
             {
                 _rep.Save();
 
-                _mutexAdd.ReleaseMutex();
                 return Ok(_rep.GetByName(name));
             }
 
-            _mutexAdd.ReleaseMutex();
             return Problem(statusCode: 404, detail: "Error while creating");
         }
 
@@ -42,16 +38,13 @@ namespace HospitalProjectIT.Controllers
         [HttpDelete("delete")]
         public IActionResult DeleteSpecialization(int id)
         {
-            _mutexDelete.WaitOne();
             if (_rep.Delete(id))
             {
                 _rep.Save();
 
-                _mutexDelete.ReleaseMutex();
                 return Ok();
             }
 
-            _mutexDelete.ReleaseMutex();
             return Problem(statusCode: 404, detail: "Error while deleting");
 
         }
