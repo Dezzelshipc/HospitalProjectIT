@@ -1,6 +1,6 @@
 ﻿using domain.Models;
 using domain.UseCases;
-using HospitalProjectIT.Views;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HospitalProjectIT.Controllers
@@ -17,10 +17,12 @@ namespace HospitalProjectIT.Controllers
             _serviceSched = scheduleService;
         }
 
+        [Authorize]
         [HttpPost("save")]
         public IActionResult SaveAppointment(int patient_id, int doctor_id, DateTime start_time, DateTime end_time, int schedule_id)
         {
             Appointment appointment = new(0, start_time, end_time, patient_id, doctor_id);
+
             var schedule = _serviceSched.GetSchedule(schedule_id);
             if (schedule.IsFailure)
                 return Problem(statusCode: 404, detail: schedule.Error);
@@ -36,7 +38,7 @@ namespace HospitalProjectIT.Controllers
         [HttpGet("get/existing")]
         public IActionResult GetExistingAppointments(int specialization_id)
         {
-            Specialization spec = new(specialization_id, ""); 
+            Specialization spec = new(specialization_id, "");
             var res = _service.GetExistingAppointments(spec);
 
             if (res.IsFailure)

@@ -1,6 +1,6 @@
 ﻿using domain.Models;
 using domain.UseCases;
-using HospitalProjectIT.Views;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HospitalProjectIT.Controllers
@@ -31,6 +31,7 @@ namespace HospitalProjectIT.Controllers
             return Ok(res.Value);
         }
 
+        [Authorize]
         [HttpPost("register")]
         public IActionResult AddSchedule(int doctor_id, DateTime start_time, DateTime end_time)
         {
@@ -44,7 +45,8 @@ namespace HospitalProjectIT.Controllers
             return Ok();
         }
 
-        [HttpGet("update")]
+        [Authorize]
+        [HttpPost("update")]
         public IActionResult UpdateSchedule(int schedule_id, int? doctor_id, DateTime? start_time, DateTime? end_time)
         {
             var res = _service.GetSchedule(schedule_id);
